@@ -12,4 +12,18 @@ body {
 
 @theme {
   --color-orange: #ee4d2d;
+
+  /* container */
+  --container-max-width: 80rem;
+  --container-padding: 1rem;
+}
+
+@layer components {
+  .container {
+    max-width: var(--container-max-width);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--container-padding);
+    padding-right: var(--container-padding);
+  }
 }

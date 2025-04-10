@@ -1,12 +1,10 @@
+import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 import { data, Link } from 'react-router-dom'
-import { getRules } from '~/utils/rules'
+import Input from '~/components/Input'
+import { getRules, schema, Schema } from '~/utils/rules'
 
-interface FormData {
-  email: string
-  password: string
-  confirm_password: string
-}
+type FormData = Schema
 
 export default function Register() {
   const {
@@ -14,8 +12,10 @@ export default function Register() {
     handleSubmit,
     getValues,
     formState: { errors }
-  } = useForm<FormData>()
-  const rules = getRules(getValues)
+  } = useForm<FormData>({
+    resolver: yupResolver(schema)
+  })
+
   const handleSubmited = handleSubmit(
     (data) => {
       console.log(data)
@@ -30,43 +30,42 @@ export default function Register() {
   // console.log(emailValue)
   return (
     <div className='bg-orange'>
-      <div className='max-w-7xl mx-auto px-4'>
+      <div className='container'>
         <div className='grid grid-cols-1 py-12 lg:grid-cols-5 lg:py-32 lg:pr-10'>
           <div className='lg:col-span-2 lg:col-start-4'>
             <form className='p-10 rounded-xl bg-amber-50 shadow-md' onSubmit={handleSubmited} noValidate>
               <div className='text-2xl'>Đăng ký</div>
               {/* Email */}
-              <div className='mt-8'>
-                <input
-                  type='email'
-                  className='p-3 w-full outline-none border border-gray-300 focus:border-gray-400 rounded-md focus:shadow-md'
-                  placeholder='Email'
-                  {...register('email', rules.email)}
-                />
-                <div className='mt-1 text-red-600 min-h-[1.25rem] text-sm'>{errors.email?.message}</div>
-              </div>
+              <Input
+                name='email'
+                register={register}
+                type='email'
+                className='mt-8'
+                errorMessage={errors.email?.message}
+                placeholder='Email'
+              />
               {/* password */}
-              <div className='mt-2'>
-                <input
-                  type='password'
-                  className='p-3 w-full outline-none border border-gray-300 focus:border-gray-400 rounded-md focus:shadow-md'
-                  placeholder='Password'
-                  autoComplete='on'
-                  {...register('password', rules.password)}
-                />
-                <div className='mt-1 text-red-600 min-h-[1.25rem] text-sm'>{errors.password?.message}</div>
-              </div>
+              <Input
+                name='password'
+                register={register}
+                type='password'
+                className='mt-2'
+                errorMessage={errors.password?.message}
+                placeholder='Password'
+                autoComplete='on'
+              />
+
               {/* confirm password */}
-              <div className='mt-2'>
-                <input
-                  type='password'
-                  className='p-3 w-full outline-none border border-gray-300 focus:border-gray-400 rounded-md focus:shadow-md'
-                  placeholder='Confirm Password'
-                  autoComplete='on'
-                  {...register('confirm_password', rules.confirm_password)}
-                />
-                <div className='mt-1 text-red-600 min-h-[1.25rem] text-sm'>{errors.confirm_password?.message}</div>
-              </div>
+              <Input
+                name='confirm_password'
+                register={register}
+                type='password'
+                className='mt-2'
+                errorMessage={errors.confirm_password?.message}
+                placeholder='Confirm Password'
+                autoComplete='on'
+              />
+
               {/* button register */}
               <div className='mt-2'>
                 <button
