@@ -1,1 +1,15 @@
 @import 'tailwindcss';
+
+html {
+  height: 100%;
+  line-height: 1.5;
+}
+
+body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 400;
+}
+
+@theme {
+  --color-orange: #ee4d2d
+}
